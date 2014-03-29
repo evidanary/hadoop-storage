@@ -1,0 +1,75 @@
+<html>
+<script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"
+        type="text/javascript"></script>
+<script>
+
+function calc() {
+    var msgs_per_day_val = $("#msgs_per_sec").val() * 3600 * 24
+    var msgs_per_month_val = numeral(msgs_per_day_val * 30).format('0 a');
+    var msgs_per_year_val = numeral(msgs_per_day_val * 365).format('0 a');
+    var store_per_day_val = msgs_per_day_val * $("#bytes_per_msg").val();
+    var store_per_month_val = numeral(store_per_day_val * 30).format('0.0b');
+    var store_per_year_val = numeral(store_per_day_val * 365).format('0.0b');
+    msgs_per_day_val = numeral(msgs_per_day_val).format('0 a');
+    store_per_day_val = numeral(store_per_day_val).format('0.0b');
+
+    $("#msgs_per_day").text(msgs_per_day_val);
+    $("#msgs_per_month").text(msgs_per_month_val);
+    $("#msgs_per_year").text(msgs_per_year_val);
+    $("#store_per_day").text(store_per_day_val);
+    $("#store_per_month").text(store_per_month_val);
+    $("#store_per_year").text(store_per_year_val);
+}
+
+$(document).ready(function () {
+    calc();
+    $("#msgs_per_sec").bind('keyup', calc);
+});
+
+</script>
+<body>
+  <h1>Back of Envelope Calculations</h1>
+<!--  <b>Assumption: 5 million messages(7 fields json) = 1 GB</b><br/>-->
+  <input type="text" id="msgs_per_sec" size="16" value="0"/> msgs/sec &nbsp;&nbsp;&nbsp;
+  <input type="text" id="bytes_per_msg" size="16" value="214"/> bytes/msg
+  <p>
+    <b>Storage Requirement Per Day</b>
+    <div style="float:left">
+      <div id="msgs_per_day" style="float:top"></div>
+      <div style="float:bottom"><i>messages</i></div>
+    </div> <div  style="float:left">&nbsp;&nbsp;</div>
+    <div style="float:left">
+      <div id="store_per_day" style="float:top"></div>
+      <div style="float:bottom"><i>storage</i></div>
+    </div>
+  </p>
+  <br/>
+  <br/>
+  <p>
+    <b>Storage Requirement Per Month</b>
+    <div style="float:left">
+      <div id="msgs_per_month" style="float:top"></div>
+      <div style="float:bottom"><i>messages</i></div>
+    </div> <div  style="float:left">&nbsp;&nbsp;</div>
+    <div style="float:left">
+      <div id="store_per_month" style="float:top"></div>
+      <div style="float:bottom"><i>storage</i></div>
+    </div>
+  </p>
+  <br/>
+  <br/>
+  <p>
+    <b>Storage Requirement Per Year</b>
+    <div style="float:left">
+      <div id="msgs_per_year" style="float:top"></div>
+      <div style="float:bottom"><i>messages</i></div>
+    </div> <div  style="float:left">&nbsp;&nbsp;</div>
+    <div style="float:left">
+      <div id="store_per_year" style="float:top"></div>
+      <div style="float:bottom"><i>storage</i></div>
+    </div>
+  </p>
+  </body>
+</html>
